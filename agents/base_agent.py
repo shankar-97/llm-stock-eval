@@ -55,6 +55,9 @@ async def call_agent(
 
     start = time.monotonic()
     for attempt in range(MAX_ATTEMPTS):
+        # Reset per attempt: schema_failed must reflect the attempt that actually
+        # decided the outcome, not accumulate across a failed-then-successful retry.
+        schema_failed = False
         try:
             response = await client.messages.parse(
                 model=model,

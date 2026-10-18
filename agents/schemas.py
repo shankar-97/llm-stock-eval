@@ -106,6 +106,11 @@ class VerdictRecord(BaseModel):
     cost_usd: float  # sum of this ticker's 5 calls
     latency_ms: int  # end-to-end wall time for this ticker's verdict
     cache_hit: bool = False
+    is_fallback: bool = False  # True if any of the 5 underlying calls used a synthetic
+                                # fallback output (refusal, API error, or repeated schema
+                                # failure) -- without this flag a systemic failure (bad
+                                # key, bad model ID) silently produces plausible-looking
+                                # neutral verdicts that are indistinguishable from real ones
 
 
 class LLMCallTrace(BaseModel):

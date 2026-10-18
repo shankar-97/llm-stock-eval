@@ -183,6 +183,7 @@ async def run_for_ticker(
     cited_inputs = [snapshot.snapshot_id, snapshot.content_hash, *news_out.cited_article_ids]
     cost_usd = sum(t.cost_usd for t in traces)
     latency_ms = int((time.monotonic() - start) * 1000)  # wall time, not sum of parallel calls
+    is_fallback = any(t.schema_validation_failed for t in traces)
 
     verdict = VerdictRecord(
         run_id=run_id,
@@ -201,6 +202,7 @@ async def run_for_ticker(
         cost_usd=cost_usd,
         latency_ms=latency_ms,
         cache_hit=False,
+        is_fallback=is_fallback,
     )
     return snapshot, verdict, traces
 
@@ -254,13 +256,31 @@ async def main(limit: int | None = None, force: bool = False) -> None:
     append_jsonl(DATA_RAW_DIR / "raw_llm_calls.jsonl", [t.model_dump(mode="json") for t in all_traces])
 
     total_cost = sum(v.cost_usd for v in verdicts)
+    fallback_count = sum(1 for v in verdicts if v.is_fallback)
+    fallback_rate = fallback_count / len(verdicts)
     logger.info(
-        "Run %s complete: %d/%d tickers succeeded, total cost $%.4f",
+        "Run %s complete: %d/%d tickers succeeded, %d fallback (%.0f%%), total cost $%.4f",
         run_id,
         len(verdicts),
         len(tickers),
+        fallback_count,
+        fallback_rate * 100,
         total_cost,
     )
+
+    # A high fallback rate almost always means a systemic failure (bad API key, wrong
+    # model ID, server rejecting the schema) rather than a few unlucky tickers -- and it
+    # produces plausible-looking neutral verdicts that would otherwise poison the eval
+    # dataset silently. Files are already written above for local debugging, but a
+    # nonzero exit here fails the CI job before the commit-and-push step runs, so garbage
+    # verdicts never make it into the committed data.
+    if fallback_rate > 0.5:
+        logger.error(
+            "Fallback rate %.0f%% exceeds 50%% -- likely a systemic failure, not isolated "
+            "ticker issues. Refusing to treat this run as healthy.",
+            fallback_rate * 100,
+        )
+        sys.exit(1)
 
 
 if __name__ == "__main__":
