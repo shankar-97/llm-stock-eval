@@ -1,0 +1,14 @@
+# Golden set location and regression thresholds per check.
+# A PR touching prompts/ or llm.yaml runs the changed agents against this
+# golden set and fails if any check regresses beyond its threshold.
+
+golden_set_path: evals/golden_set/
+
+checks:
+  schema_valid_rate_min: 1.0
+  citation_valid_rate_min: 1.0
+  grounding_valid_rate_min: 0.95
+  neutral_rate_max: 0.5
+  refusal_rate_max: 0.02
+  cost_usd_max_per_verdict: null
+  p95_latency_ms_max: null

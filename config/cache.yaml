@@ -1,0 +1,11 @@
+# TTL backstop, per-agent switches.
+# Cache key = agent + prompt_version + model + hash(agent's normalized inputs).
+
+ttl_hours_backstop: 24
+
+per_agent_enabled:
+  fundamentals: true
+  technicals: true
+  news_sentiment: true
+  risk: true
+  portfolio_manager: true

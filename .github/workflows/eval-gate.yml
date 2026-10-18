@@ -1,0 +1,15 @@
+name: CI eval gate
+
+on:
+  pull_request:
+    paths:
+      - "prompts/**"
+      - "config/llm.yaml"
+
+jobs:
+  eval-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Placeholder
+        run: echo "TODO: run changed agents against evals/golden_set and enforce config/eval_gate.yaml thresholds"

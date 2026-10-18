@@ -1,0 +1,13 @@
+# Current vs challenger, decision rule, minimum sample, ticker subset.
+# Numbers below are placeholders to show the shape, not tuned values.
+# Fix the rule before the experiment starts.
+
+active:
+  name: null
+  control: null       # e.g. news_sentiment@v2
+  challenger: null    # e.g. news_sentiment@v3
+  tickers: subset_25
+  primary_metric: hit_rate_lift_5d
+  guardrails: {brier_score_max_increase: 0.01, cost_per_verdict_max_increase_pct: 20}
+  min_paired_verdicts: 500
+  test: mcnemar

@@ -1,0 +1,11 @@
+# Horizons, neutral bands, baselines, interval method.
+# Starting guesses below; tune after week 2.
+
+benchmark: SPY
+horizons_days: [1, 5, 20]
+neutral_band_pct: {1: 0.25, 5: 0.75, 20: 1.5}
+entry: next_open
+exit: close
+baselines: [always_bullish, prior_day_direction, momentum_20d, shuffled]
+interval: wilson_95
+bootstrap: {block: trading_day, iterations: 2000}

@@ -1,0 +1,8 @@
+# Tickers, sector, benchmark ETF. The only place the universe is defined.
+# Freeze this list on day one and never edit it mid-evaluation.
+benchmark: SPY
+
+tickers: []
+# - symbol: AAPL
+#   sector: Technology
+#   benchmark: SPY

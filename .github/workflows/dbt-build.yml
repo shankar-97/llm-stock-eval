@@ -1,0 +1,16 @@
+name: dbt build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "warehouse/**"
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Placeholder
+        run: echo "TODO: dbt build + test against the warehouse"

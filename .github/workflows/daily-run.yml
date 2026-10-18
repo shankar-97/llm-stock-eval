@@ -1,0 +1,14 @@
+name: Daily verdict run
+
+on:
+  schedule:
+    - cron: "30 21 * * 1-5" # after US market close, Mon-Fri
+  workflow_dispatch: {}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Placeholder
+        run: echo "TODO: write snapshot, run agents, score matured horizons"

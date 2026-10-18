@@ -1,0 +1,28 @@
+# Model per agent, embeddings model, token budgets, cost and latency budgets.
+# Swapping a model here is a config change the experiment framework can test.
+
+embeddings_model: null  # e.g. text-embedding-3-small
+
+agents:
+  fundamentals:
+    model: null  # small, cheap model
+    token_budget: 4000
+  technicals:
+    model: null
+    token_budget: 2000
+  news_sentiment:
+    model: null
+    token_budget: 4000
+  risk:
+    model: null
+    token_budget: 2000
+  portfolio_manager:
+    model: null  # stronger model
+    token_budget: 6000
+  reviewer:
+    model: null  # stronger model, offline/weekly
+    token_budget: 8000
+
+budgets:
+  p95_latency_ms_per_verdict: null
+  max_cost_usd_per_verdict: null

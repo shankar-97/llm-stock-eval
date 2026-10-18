@@ -1,0 +1,8 @@
+# Screener definitions over gold feature tables (fct_ticker_daily_features).
+# Stretch goal — after launch.
+
+screeners: []
+# - name: top_5_dividend_stocks
+#   source_table: fct_ticker_daily_features
+#   order_by: dividend_yield desc
+#   limit: 5

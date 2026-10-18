@@ -1,0 +1,12 @@
+# Filing sections, chunk size and overlap, top-k, news dedupe threshold.
+
+filing_sections:
+  - business
+  - risk_factors
+  - managements_discussion
+
+chunk_size_tokens: 500
+chunk_overlap_tokens: 50
+top_k: 5
+
+news_dedupe_similarity_threshold: 0.9
