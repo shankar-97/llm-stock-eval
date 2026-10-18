@@ -12,8 +12,8 @@ This is an evaluation and reliability platform for LLM stock analysis, not
 claim that the system beats the market. Verdicts are research output, not
 investment advice.
 
-See [the design doc](../../Projects/LLM%20Stock%20Analyst%20Eval%20Platform%20%E2%80%94%20Design%20Doc.md)
-for the full architecture, evaluation methodology, and build plan.
+See the design doc (kept outside this repo) for the full architecture, evaluation
+methodology, and build plan.
 
 ## Repo layout
 
@@ -32,4 +32,39 @@ web/          # Vite + React + TypeScript dashboard
 
 ## Status
 
-Scaffolding only — see the design doc's Build plan and Definition of done.
+Week-1 slice is live: a daily snapshot writer, four analyst agents (fundamentals,
+technicals, news sentiment, risk) and a portfolio manager agent run against the universe
+in `config/universe.yaml`, producing structured verdicts appended to `data/raw/*.jsonl`.
+Retrieval, the CI eval gate, the warehouse/dbt, the API, and the web app are not built
+yet — see the design doc's Build plan.
+
+## Local setup
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env   # fill in ANTHROPIC_API_KEY (required); FINNHUB_API_KEY is optional --
+                        # without it the news_sentiment agent runs with no_news_data=true
+```
+
+Run the daily pipeline against a small subset first (writes to `data/raw/*.jsonl`):
+
+```bash
+python -m ingest.run_daily --limit 3 --force   # --force bypasses the weekend guard for testing
+```
+
+Then against the full universe:
+
+```bash
+python -m ingest.run_daily --force   # drop --force on a real trading weekday; the
+                                      # weekend guard is on by default
+```
+
+Nothing is committed automatically outside CI — see `.github/workflows/daily-run.yml`
+for the scheduled run, which also needs `ANTHROPIC_API_KEY` and (optionally)
+`FINNHUB_API_KEY` set as repo secrets.
+
+`config/universe.yaml` and `config/llm.yaml` are already filled in (50 tickers, Claude
+model IDs); freeze the universe once you've confirmed a clean run — editing it later
+introduces hindsight bias into the evaluation.

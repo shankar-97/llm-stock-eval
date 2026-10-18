@@ -2,13 +2,47 @@ name: Daily verdict run
 
 on:
   schedule:
-    - cron: "30 21 * * 1-5" # after US market close, Mon-Fri
+    - cron: "30 21 * * 1-5" # after US market close, Mon-Fri; best-effort -- GitHub's
+                             # schedule trigger can be delayed, spot-check manually
+    # at first via workflow_dispatch.
   workflow_dispatch: {}
+
+concurrency:
+  group: daily-verdict-run
+  cancel-in-progress: false
+
+permissions:
+  contents: write # required for the commit-back step below
 
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Placeholder
-        run: echo "TODO: write snapshot, run agents, score matured horizons"
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run daily verdict pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+        run: python -m ingest.run_daily
+
+      - name: Commit and push updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/raw/*.jsonl
+          if git diff --cached --quiet; then
+            echo "No data changes (weekend/holiday/all-tickers-failed) -- nothing to commit."
+            exit 0
+          fi
+          git commit -m "Daily verdict run $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push

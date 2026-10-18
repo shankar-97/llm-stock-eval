@@ -2,7 +2,65 @@
 # Freeze this list on day one and never edit it mid-evaluation.
 benchmark: SPY
 
-tickers: []
-# - symbol: AAPL
-#   sector: Technology
-#   benchmark: SPY
+tickers:
+  # Technology (10)
+  - {symbol: AAPL, sector: Technology}
+  - {symbol: MSFT, sector: Technology}
+  - {symbol: NVDA, sector: Technology}
+  - {symbol: AVGO, sector: Technology}
+  - {symbol: ORCL, sector: Technology}
+  - {symbol: CRM, sector: Technology}
+  - {symbol: ADBE, sector: Technology}
+  - {symbol: CSCO, sector: Technology}
+  - {symbol: AMD, sector: Technology}
+  - {symbol: QCOM, sector: Technology}
+  # Communication Services (5)
+  - {symbol: GOOGL, sector: "Communication Services"}
+  - {symbol: META, sector: "Communication Services"}
+  - {symbol: NFLX, sector: "Communication Services"}
+  - {symbol: DIS, sector: "Communication Services"}
+  - {symbol: CMCSA, sector: "Communication Services"}
+  # Consumer Discretionary (6)
+  - {symbol: AMZN, sector: "Consumer Discretionary"}
+  - {symbol: TSLA, sector: "Consumer Discretionary"}
+  - {symbol: HD, sector: "Consumer Discretionary"}
+  - {symbol: MCD, sector: "Consumer Discretionary"}
+  - {symbol: NKE, sector: "Consumer Discretionary"}
+  - {symbol: SBUX, sector: "Consumer Discretionary"}
+  # Consumer Staples (5)
+  - {symbol: PG, sector: "Consumer Staples"}
+  - {symbol: KO, sector: "Consumer Staples"}
+  - {symbol: PEP, sector: "Consumer Staples"}
+  - {symbol: WMT, sector: "Consumer Staples"}
+  - {symbol: COST, sector: "Consumer Staples"}
+  # Financials (7)
+  - {symbol: JPM, sector: Financials}
+  - {symbol: BAC, sector: Financials}
+  - {symbol: WFC, sector: Financials}
+  - {symbol: GS, sector: Financials}
+  - {symbol: MA, sector: Financials}
+  - {symbol: V, sector: Financials}
+  - {symbol: "BRK-B", sector: Financials}
+  # Healthcare (7)
+  - {symbol: UNH, sector: Healthcare}
+  - {symbol: JNJ, sector: Healthcare}
+  - {symbol: LLY, sector: Healthcare}
+  - {symbol: PFE, sector: Healthcare}
+  - {symbol: ABBV, sector: Healthcare}
+  - {symbol: MRK, sector: Healthcare}
+  - {symbol: TMO, sector: Healthcare}
+  # Industrials (4)
+  - {symbol: CAT, sector: Industrials}
+  - {symbol: HON, sector: Industrials}
+  - {symbol: UPS, sector: Industrials}
+  - {symbol: BA, sector: Industrials}
+  # Energy (2)
+  - {symbol: XOM, sector: Energy}
+  - {symbol: CVX, sector: Energy}
+  # Utilities (2)
+  - {symbol: NEE, sector: Utilities}
+  - {symbol: DUK, sector: Utilities}
+  # Real Estate (1)
+  - {symbol: PLD, sector: "Real Estate"}
+  # Materials (1)
+  - {symbol: LIN, sector: Materials}

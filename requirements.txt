@@ -1,0 +1,10 @@
+anthropic>=0.75
+yfinance>=0.2.54
+curl_cffi
+lxml
+finnhub-python
+pydantic>=2.9
+pyyaml
+pandas
+numpy
+python-dotenv
